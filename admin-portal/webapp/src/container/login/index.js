@@ -51,7 +51,7 @@ class Login extends Component {
         let user = this.props.form;
         e.preventDefault();
         let element = e.target.value;
-        console.log(element, this.props)
+        console.log(element, this.props);
         this.props.history.push('/')
 
         // this.props.loginUser(form)
@@ -81,7 +81,7 @@ class Login extends Component {
     inputHandler(e) {
         let form = this.props.form;
         let element = e.target;
-        console.log(element)
+        console.log(element);
         form[element.id] = element.value;
         // this.validForm();
         console.log(form)
@@ -111,10 +111,10 @@ class Login extends Component {
                                 <div className='panel-body'>
                                     <div className="col-md-12 content-section">
                                         <div className="title">
-                                            <div className="description"><h2>{UIHelper.getText("registrationPageTitle")}</h2>
+                                            <div className="description"><h2>{UIHelper.getText("projectName")}</h2>
                                                 <div className="violet-line"/>
                                             </div>
-                                            <span className="f20slg">{UIHelper.getText("registrationPageMessage")}</span>
+                                            <span className="f20slg">{UIHelper.getText("loginPage")}</span>
                                         </div>
                                         <div className="body d-flex align-items-center flex-column justify-content-end">
                                             <form onSubmit={this.register}>
@@ -123,7 +123,7 @@ class Login extends Component {
                                                         <TextInput id="email"
                                                                 type="email"
                                                                 ref="email"
-                                                                label="Email"
+                                                                label="Usuario SIE"
                                                                 onChange={this.inputHandler}
                                                                 value={form.email}
                                                                 iconname="icon-mail"
@@ -146,11 +146,11 @@ class Login extends Component {
                                                 <div className="row mt50">
                                                     <div className="col-md-12 ">
                                                         <button
+                                                            style={{paddingLeft: 20}}
                                                             className="button-green mr30 mob-mb30px"
                                                             type="submit"
                                                         >
-                                                            <span>s</span>
-                                                            {UIHelper.getText("registerButton")}
+                                                            {UIHelper.getText("loginButton")}
                                                         </button>
                                                     </div>
                                                 </div>

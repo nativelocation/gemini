@@ -1,7 +1,7 @@
 export default {
 
     //welcome page
-    projectName: "Confirmación de Matrícula",
+    projectName: "SIE-Admin",
     projectNameFragment: "de Estudiante",
 
     enrollmentYear: "2018-2019",
@@ -11,7 +11,7 @@ export default {
 
     //login page
     initiateSectionTitle: "Iniciar sesión",
-    loginPage: " Para iniciar sesión, entre a continuación su correo electrónico y contraseña que utilizó para crear su cuenta.",
+    loginPage: " Para iniciar sesión, entre a continuación su credenciales del SIE.",
     loginButton: "Entrar",
     noAccountLink: "¿Registrate?",
     messageTitle: "Error!",
