@@ -8,7 +8,7 @@ package com.gemini.admin.database;
  */
 public enum AccessFrom {
     REGIONS,
-    MUNICIPALITY,
+    CITIES,
     SCHOOLS,
     OTHER
 }
