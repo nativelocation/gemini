@@ -1,0 +1,62 @@
+/* @import "./resources/resources.css";
+@import "./wallet/wallet.css"; */
+
+.flexCenter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard .dashboard-header {
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+.dashboard .sidebar {}
+
+.dashboard .sidebar .dashboard-icon {
+  width: 35px;
+  height: 35px;
+  display: inline-block;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin-right: 23px;
+}
+
+.dashboard .sidebar .nav>li>a:hover .dashboard-icon.wallet,
+.dashboard .sidebar .nav>li.active a .dashboard-icon.wallet {
+  background-image: url(/static/images/wallet-blue.svg);
+}
+.dashboard .sidebar .dashboard-icon.wallet {
+  background-image: url(/static/images/wallet.svg);
+  margin-bottom: -10px;
+}
+
+.dashboard .sidebar .nav>li>a:hover .dashboard-icon.resources,
+.dashboard .sidebar .nav>li.active a .dashboard-icon.resources {
+  background-image: url(/static/images/book-blue.svg);
+}
+.dashboard .sidebar .dashboard-icon.resources {
+  background-image: url(/static/images/book.svg);
+  margin-bottom: -10px;
+}
+
+.dashboard .main .sidebar .userInfo {
+  padding: 20px;
+  display: flex;
+}
+
+.dashboard .main .sidebar .userInfo {
+  background: #4cc3c0;
+}
+
+.dashboard .main .sidebar .userInfo .userAvatar {
+  width: 120px;
+  height: 120px;
+}
+
+.dashboard .main .display {
+  min-height: calc(100vh - 81px);
+  padding-top: 100;
+}
