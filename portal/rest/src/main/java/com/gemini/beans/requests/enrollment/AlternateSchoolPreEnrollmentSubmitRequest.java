@@ -1,6 +1,6 @@
 package com.gemini.beans.requests.enrollment;
 
-import com.gemini.beans.forms.AlternateSchoolBean;
+import com.gemini.commons.beans.forms.AlternateSchoolBean;
 
 import java.util.List;
 

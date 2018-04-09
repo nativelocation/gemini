@@ -1,6 +1,6 @@
 package com.gemini.beans.responses;
 
-import com.gemini.beans.forms.PreEnrollmentBean;
+import com.gemini.commons.beans.forms.PreEnrollmentBean;
 
 import java.util.List;
 

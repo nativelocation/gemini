@@ -1,6 +1,6 @@
 package com.gemini.beans.requests;
 
-import com.gemini.beans.forms.EthnicCodeBean;
+import com.gemini.commons.beans.forms.EthnicCodeBean;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;

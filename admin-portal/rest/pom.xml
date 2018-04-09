@@ -77,6 +77,11 @@
             <artifactId>httpclient</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.gemini</groupId>
+            <artifactId>srs-common</artifactId>
+        </dependency>
+
 
         <!--this is use only for development-->
         <dependency>

@@ -1,8 +1,8 @@
 package com.gemini.database.dao;
 
 import com.gemini.beans.requests.StudentSearchRequest;
-import com.gemini.beans.types.SpecializedSchoolCategory;
-import com.gemini.database.dao.beans.*;
+import com.gemini.commons.beans.types.SpecializedSchoolCategory;
+import com.gemini.commons.database.beans.*;
 
 import java.util.Date;
 import java.util.List;

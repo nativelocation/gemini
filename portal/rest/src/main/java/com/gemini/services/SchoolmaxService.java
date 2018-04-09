@@ -1,10 +1,10 @@
 package com.gemini.services;
 
 import com.gemini.beans.requests.StudentSearchRequest;
-import com.gemini.beans.types.SchoolCategory;
-import com.gemini.beans.types.SpecializedSchoolCategory;
+import com.gemini.commons.beans.types.SchoolCategory;
+import com.gemini.commons.beans.types.SpecializedSchoolCategory;
+import com.gemini.commons.database.beans.*;
 import com.gemini.database.dao.SchoolMaxDaoInterface;
-import com.gemini.database.dao.beans.*;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;

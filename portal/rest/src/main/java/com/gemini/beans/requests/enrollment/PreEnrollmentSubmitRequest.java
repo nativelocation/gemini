@@ -1,6 +1,6 @@
 package com.gemini.beans.requests.enrollment;
 
-import com.gemini.beans.types.EnrollmentType;
+import com.gemini.commons.beans.types.EnrollmentType;
 
 /**
  * Created with IntelliJ IDEA.

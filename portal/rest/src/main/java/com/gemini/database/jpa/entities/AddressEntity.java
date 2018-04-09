@@ -1,6 +1,6 @@
 package com.gemini.database.jpa.entities;
 
-import com.gemini.beans.types.AddressType;
+import com.gemini.commons.beans.types.AddressType;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 

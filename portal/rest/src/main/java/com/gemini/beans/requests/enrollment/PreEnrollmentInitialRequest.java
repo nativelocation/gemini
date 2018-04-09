@@ -1,8 +1,8 @@
 package com.gemini.beans.requests.enrollment;
 
-import com.gemini.beans.IdentityForm;
-import com.gemini.beans.types.Gender;
-import com.gemini.beans.types.EnrollmentType;
+import com.gemini.commons.beans.IdentityForm;
+import com.gemini.commons.beans.types.Gender;
+import com.gemini.commons.beans.types.EnrollmentType;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;

@@ -17,7 +17,7 @@ class ForgotPasswordResult extends Component {
 
     render() {
         let success = this.props.match.params.result === "success";
-        let title = success ? UIHelper.getText("forgotPasswordErrorTitle") : UIHelper.getText("forgotPasswordErrorTitle") ;
+        let title = success ? UIHelper.getText("forgotPasswordSuccessTitle") : UIHelper.getText("forgotPasswordErrorTitle") ;
         return [<div className="col-md-7 content-section">
             <div className="title">
                 <div className="description mb40"><h2>{title}!</h2>

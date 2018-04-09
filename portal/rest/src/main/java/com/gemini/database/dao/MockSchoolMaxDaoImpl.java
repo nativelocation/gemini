@@ -1,9 +1,10 @@
 package com.gemini.database.dao;
 
 import com.gemini.beans.requests.StudentSearchRequest;
-import com.gemini.beans.types.SpecializedSchoolCategory;
-import com.gemini.database.dao.beans.*;
-import com.gemini.utils.ValidationUtils;
+import com.gemini.commons.beans.types.SpecializedSchoolCategory;
+
+import com.gemini.commons.database.beans.*;
+import com.gemini.commons.utils.ValidationUtils;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;

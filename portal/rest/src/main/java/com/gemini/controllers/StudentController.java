@@ -1,12 +1,12 @@
 package com.gemini.controllers;
 
-import com.gemini.beans.forms.StudentDemographicsBean;
+import com.gemini.commons.beans.forms.StudentDemographicsBean;
 import com.gemini.beans.requests.StudentAnswerRequest;
 import com.gemini.beans.requests.StudentDemographicsRequest;
-import com.gemini.beans.responses.ResponseBase;
+import com.gemini.commons.beans.responses.ResponseBase;
+import com.gemini.commons.utils.ValidationUtils;
 import com.gemini.services.StudentService;
 import com.gemini.utils.MessageHelper;
-import com.gemini.utils.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;

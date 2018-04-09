@@ -1,5 +1,5 @@
 package com.gemini.beans.requests.enrollment;
-import com.gemini.beans.forms.VocationalProgramSelection;
+import com.gemini.commons.beans.forms.VocationalProgramSelection;
 
 import java.util.List;
 

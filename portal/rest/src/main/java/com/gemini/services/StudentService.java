@@ -1,13 +1,13 @@
 package com.gemini.services;
 
-import com.gemini.beans.forms.EthnicCodeBean;
-import com.gemini.beans.forms.StudentDemographicsBean;
+import com.gemini.commons.beans.forms.EthnicCodeBean;
+import com.gemini.commons.beans.forms.StudentDemographicsBean;
 import com.gemini.beans.requests.StudentAnswerRequest;
 import com.gemini.beans.requests.StudentDemographicsRequest;
 import com.gemini.database.jpa.entities.EthnicCodeEntity;
 import com.gemini.database.jpa.entities.StudentEntity;
 import com.gemini.database.jpa.respository.StudentRepository;
-import com.gemini.utils.CopyUtils;
+import com.gemini.commons.utils.CopyUtils;
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;

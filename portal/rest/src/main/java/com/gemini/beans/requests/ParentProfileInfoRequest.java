@@ -1,6 +1,6 @@
 package com.gemini.beans.requests;
 
-import com.gemini.beans.types.RelationType;
+import com.gemini.commons.beans.types.RelationType;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;

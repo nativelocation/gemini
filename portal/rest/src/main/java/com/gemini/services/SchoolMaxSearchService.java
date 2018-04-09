@@ -2,10 +2,10 @@ package com.gemini.services;
 
 import com.gemini.beans.forms.User;
 import com.gemini.beans.requests.StudentSearchRequest;
-import com.gemini.database.dao.beans.Student;
+import com.gemini.commons.database.beans.Student;
 import com.gemini.database.jpa.entities.StudentSearchLogEntity;
 import com.gemini.database.jpa.respository.StudentSearchLogRepository;
-import com.gemini.utils.CopyUtils;
+import com.gemini.commons.utils.CopyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

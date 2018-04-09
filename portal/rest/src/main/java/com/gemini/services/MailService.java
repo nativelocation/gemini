@@ -1,8 +1,8 @@
 package com.gemini.services;
 
-import com.gemini.beans.forms.PreEnrollmentBean;
+import com.gemini.commons.beans.forms.PreEnrollmentBean;
 import com.gemini.beans.forms.User;
-import com.gemini.beans.integration.SchoolResponse;
+import com.gemini.commons.beans.integration.SchoolResponse;
 import com.gemini.beans.internal.UserAction;
 import com.gemini.beans.requests.enrollment.PreEnrollmentSubmitRequest;
 import com.gemini.beans.requests.user.RegisterRequest;

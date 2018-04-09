@@ -1,18 +1,15 @@
 package com.gemini.utils;
 
-import com.gemini.beans.integration.StudentResponse;
-import com.gemini.beans.requests.StudentSearchRequest;
-import com.gemini.beans.responses.ResponseBase;
+import com.gemini.commons.beans.integration.StudentResponse;
+import com.gemini.commons.beans.responses.ResponseBase;
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 
 import java.util.*;
 

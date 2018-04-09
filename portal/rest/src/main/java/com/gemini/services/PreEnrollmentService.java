@@ -1,23 +1,24 @@
 package com.gemini.services;
 
-import com.gemini.beans.forms.*;
-import com.gemini.beans.integration.SchoolResponse;
+import com.gemini.beans.forms.User;
+import com.gemini.commons.beans.forms.VocationalProgramSelection;
+import com.gemini.commons.beans.integration.SchoolResponse;
 import com.gemini.beans.internal.RequestSearchResult;
 import com.gemini.beans.requests.ReasonForNotAttendingRequest;
 import com.gemini.beans.requests.enrollment.AlternateSchoolPreEnrollmentSubmitRequest;
 import com.gemini.beans.requests.enrollment.PreEnrollmentInitialRequest;
 import com.gemini.beans.requests.enrollment.PreEnrollmentSubmitRequest;
 import com.gemini.beans.requests.enrollment.VocationalPreEnrollmentSubmitRequest;
-import com.gemini.beans.types.*;
-import com.gemini.database.dao.beans.*;
+import com.gemini.commons.beans.types.*;
+import com.gemini.commons.database.beans.*;
 import com.gemini.database.jpa.entities.*;
 import com.gemini.database.jpa.respository.AddressRepository;
 import com.gemini.database.jpa.respository.PreEnrollmentRepository;
 import com.gemini.database.jpa.respository.StudentRepository;
 import com.gemini.database.jpa.respository.UserRepository;
-import com.gemini.utils.CopyUtils;
-import com.gemini.utils.Utils;
-import com.gemini.utils.ValidationUtils;
+import com.gemini.commons.utils.CopyUtils;
+import com.gemini.commons.utils.Utils;
+import com.gemini.commons.utils.ValidationUtils;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.*;
@@ -52,8 +53,8 @@ public class PreEnrollmentService {
     @Autowired
     private CommonService commonService;
 
-    public PreEnrollmentBean createPreEnrollment(PreEnrollmentInitialRequest request, User loggedUser) {
-        PreEnrollmentBean preEnrollmentBean = null;
+    public com.gemini.commons.beans.forms.PreEnrollmentBean createPreEnrollment(PreEnrollmentInitialRequest request, User loggedUser) {
+        com.gemini.commons.beans.forms.PreEnrollmentBean preEnrollmentBean = null;
         PreEnrollmentRequestEntity entity = new PreEnrollmentRequestEntity();
         Long studentNumber = request.getStudentNumber();
         entity.setType(request.getType());
@@ -67,13 +68,13 @@ public class PreEnrollmentService {
         if (studentNumber != null && studentNumber > 0L) {
             student = smaxService.retrieveStudentInfo(studentNumber);
             if (student != null) {
-                preEnrollmentBean = new PreEnrollmentBean();
+                preEnrollmentBean = new com.gemini.commons.beans.forms.PreEnrollmentBean();
                 address = smaxService.retrieveStudentAddress(studentNumber);
                 //let's find the most recent enrollment from SIS
                 EnrollmentInfo enrollmentInfo = smaxService.retrieveMostRecentEnrollment(student.getStudentId());
                 if (enrollmentInfo != null) {
 
-                    preEnrollmentBean = CopyUtils.convert(entity, PreEnrollmentBean.class);
+                    preEnrollmentBean = CopyUtils.convert(entity, com.gemini.commons.beans.forms.PreEnrollmentBean.class);
                     boolean hasPrevious = commonService.isPreviousEnrollment(enrollmentInfo);
                     boolean hasPreEnrollment = commonService.isPreEnrollmentYear(enrollmentInfo);
                     boolean hasOld = commonService.isOldEnrollment(enrollmentInfo);
@@ -109,7 +110,7 @@ public class PreEnrollmentService {
             studentEntity = saveStudent(studentEntity);
             entity.setStudent(studentEntity);
             entity = preEnrollmentRepository.save(entity);
-            preEnrollmentBean = CopyUtils.convert(entity, PreEnrollmentBean.class);
+            preEnrollmentBean = CopyUtils.convert(entity, com.gemini.commons.beans.forms.PreEnrollmentBean.class);
         }
 
         if (preEnrollmentBean != null && entity != null) {
@@ -122,7 +123,7 @@ public class PreEnrollmentService {
 
     }
 
-    public PreEnrollmentBean updatePreEnrollment(PreEnrollmentInitialRequest request) {
+    public com.gemini.commons.beans.forms.PreEnrollmentBean updatePreEnrollment(PreEnrollmentInitialRequest request) {
         PreEnrollmentRequestEntity requestEntity;
         if (request.getRequestId() != null && request.getRequestId() > 0L)
             requestEntity = preEnrollmentRepository.findOne(request.getRequestId());
@@ -142,7 +143,7 @@ public class PreEnrollmentService {
         return requestEntity != null ? getPreEnrollmentBean(requestEntity) : null;
     }
 
-    public PreEnrollmentBean findById(Long id) {
+    public com.gemini.commons.beans.forms.PreEnrollmentBean findById(Long id) {
         PreEnrollmentRequestEntity entity = preEnrollmentRepository.findOne(id);
         if (entity != null) {
             return getPreEnrollmentBean(entity);
@@ -165,7 +166,7 @@ public class PreEnrollmentService {
                 break;
             case OCCUPATIONAL:
             case TECHNIQUE:
-                VocationalPreEnrollmentBean vocational = findVocationalPreEnrollmentById(id);
+                com.gemini.commons.beans.forms.VocationalPreEnrollmentBean vocational = findVocationalPreEnrollmentById(id);
                 if (vocational.getEnrollments() != null && !vocational.getEnrollments().isEmpty())
                     schoolId = vocational.getEnrollments().get(0).getSchoolId();
                 break;
@@ -176,11 +177,11 @@ public class PreEnrollmentService {
         return response;
     }
 
-    public List<PreEnrollmentBean> findPreEnrollmentByUser(User loggedUser) {
+    public List<com.gemini.commons.beans.forms.PreEnrollmentBean> findPreEnrollmentByUser(User loggedUser) {
         UserEntity user = userRepository.findOne(loggedUser.getId());
         List<PreEnrollmentRequestEntity> entities = user.getRequests();//userService.findByUserIdOrderBySubmitDateDesc(loggedUser.getId());
         if (entities != null) {
-            List<PreEnrollmentBean> list = new ArrayList<>();
+            List<com.gemini.commons.beans.forms.PreEnrollmentBean> list = new ArrayList<>();
             for (PreEnrollmentRequestEntity entity : entities) {
                 list.add(getPreEnrollmentBean(entity));
             }
@@ -232,19 +233,19 @@ public class PreEnrollmentService {
         return result;
     }
 
-    public PreEnrollmentStudentInfoBean findPreEnrollmentById(Long id) {
+    public com.gemini.commons.beans.forms.PreEnrollmentStudentInfoBean findPreEnrollmentById(Long id) {
         PreEnrollmentRequestEntity entity = preEnrollmentRepository.findByIdAndRequestStatusIs(id, RequestStatus.ACTIVE);
         if (entity == null)
             return null;
         return getPreEnrollmentStudentInfoBean(entity);
     }
 
-    public VocationalPreEnrollmentBean findVocationalPreEnrollmentById(Long id) {
+    public com.gemini.commons.beans.forms.VocationalPreEnrollmentBean findVocationalPreEnrollmentById(Long id) {
         PreEnrollmentRequestEntity entity = preEnrollmentRepository.findByIdAndRequestStatusIs(id, RequestStatus.ACTIVE);
         if (entity == null)
             return null;
-        PreEnrollmentBean preEnrollment = getPreEnrollmentBean(entity);
-        VocationalPreEnrollmentBean vocationalPreEnrollment = CopyUtils.convert(preEnrollment, VocationalPreEnrollmentBean.class);
+        com.gemini.commons.beans.forms.PreEnrollmentBean preEnrollment = getPreEnrollmentBean(entity);
+        com.gemini.commons.beans.forms.VocationalPreEnrollmentBean vocationalPreEnrollment = CopyUtils.convert(preEnrollment, com.gemini.commons.beans.forms.VocationalPreEnrollmentBean.class);
         Function<PreEnrollmentVocationalSchoolEntity, Long> toSchoolId = new Function<PreEnrollmentVocationalSchoolEntity, Long>() {
             @Override
             public Long apply(PreEnrollmentVocationalSchoolEntity schoolEntity) {
@@ -252,10 +253,10 @@ public class PreEnrollmentService {
             }
         };
 
-        final Function<PreEnrollmentVocationalSchoolEntity, VocationalProgramSelection> toProgramSelection = new Function<PreEnrollmentVocationalSchoolEntity, VocationalProgramSelection>() {
+        final Function<PreEnrollmentVocationalSchoolEntity, com.gemini.commons.beans.forms.VocationalProgramSelection> toProgramSelection = new Function<PreEnrollmentVocationalSchoolEntity, com.gemini.commons.beans.forms.VocationalProgramSelection>() {
             @Override
-            public VocationalProgramSelection apply(PreEnrollmentVocationalSchoolEntity schoolEntity) {
-                VocationalProgramSelection selection = new VocationalProgramSelection();
+            public com.gemini.commons.beans.forms.VocationalProgramSelection apply(PreEnrollmentVocationalSchoolEntity schoolEntity) {
+                com.gemini.commons.beans.forms.VocationalProgramSelection selection = new com.gemini.commons.beans.forms.VocationalProgramSelection();
                 selection.setSchoolId(schoolEntity.getSchoolId());
                 selection.setProgramCode(schoolEntity.getProgramCode());
                 selection.setProgramDescription(schoolEntity.getProgramDescription());
@@ -263,15 +264,15 @@ public class PreEnrollmentService {
             }
         };
         final Multimap<Long, PreEnrollmentVocationalSchoolEntity> schoolProgramMap = Multimaps.index(entity.getVocationalSchools(), toSchoolId);
-        Function<Long, VocationalSchoolEnrollment> toVocationalProgram = new Function<Long, VocationalSchoolEnrollment>() {
+        Function<Long, com.gemini.commons.beans.forms.VocationalSchoolEnrollment> toVocationalProgram = new Function<Long, com.gemini.commons.beans.forms.VocationalSchoolEnrollment>() {
             @Override
-            public VocationalSchoolEnrollment apply(Long schoolId) {
-                VocationalSchoolEnrollment enrollment = new VocationalSchoolEnrollment();
+            public com.gemini.commons.beans.forms.VocationalSchoolEnrollment apply(Long schoolId) {
+                com.gemini.commons.beans.forms.VocationalSchoolEnrollment enrollment = new com.gemini.commons.beans.forms.VocationalSchoolEnrollment();
                 School school = getSchool(schoolId);
                 enrollment.setSchoolId(schoolId);
                 enrollment.setSchoolName(school.getSchoolName());
                 enrollment.setSchoolAddress(CopyUtils.createAddressBean(school));
-                List<VocationalProgramSelection> programs = Lists.transform(Lists.newArrayList(schoolProgramMap.get(schoolId)), toProgramSelection);
+                List<com.gemini.commons.beans.forms.VocationalProgramSelection> programs = Lists.transform(Lists.newArrayList(schoolProgramMap.get(schoolId)), toProgramSelection);
                 enrollment.setPrograms(programs);
                 return enrollment;
             }
@@ -283,23 +284,23 @@ public class PreEnrollmentService {
 
     }
 
-    public boolean updateStudentAddress(AddressBean address) {
+    public boolean updateStudentAddress(com.gemini.commons.beans.forms.AddressBean address) {
         AddressEntity entity = CopyUtils.convert(address, AddressEntity.class);
         entity = saveAddress(entity);
         return entity != null;
     }
 
-    public PreEnrollmentAddressBean getAddress(Long requestId) {
+    public com.gemini.commons.beans.forms.PreEnrollmentAddressBean getAddress(Long requestId) {
         PreEnrollmentRequestEntity entity = preEnrollmentRepository.findOne(requestId);
-        PreEnrollmentAddressBean addressBean = new PreEnrollmentAddressBean(requestId);
+        com.gemini.commons.beans.forms.PreEnrollmentAddressBean addressBean = new com.gemini.commons.beans.forms.PreEnrollmentAddressBean(requestId);
         if (entity != null && entity.getStudent() != null) {
-            addressBean.setPhysical(CopyUtils.convert(entity.getStudent().getPhysical(), AddressBean.class));
-            addressBean.setPostal(CopyUtils.convert(entity.getStudent().getPostal(), AddressBean.class));
+            addressBean.setPhysical(CopyUtils.convert(entity.getStudent().getPhysical(), com.gemini.commons.beans.forms.AddressBean.class));
+            addressBean.setPostal(CopyUtils.convert(entity.getStudent().getPostal(), com.gemini.commons.beans.forms.AddressBean.class));
         }
         return addressBean;
     }
 
-    public boolean validAddressForRequestId(Long id, AddressBean physical, AddressBean postal) {
+    public boolean validAddressForRequestId(Long id, com.gemini.commons.beans.forms.AddressBean physical, com.gemini.commons.beans.forms.AddressBean postal) {
         boolean valid = false;
         PreEnrollmentRequestEntity entity = preEnrollmentRepository.findOne(id);
         if (entity != null && entity.getStudent() != null) {
@@ -331,11 +332,11 @@ public class PreEnrollmentService {
         final PreEnrollmentRequestEntity requestEntity = preEnrollmentRepository.findOne(request.getRequestId());
         requestEntity.setType(request.getType());
         final List<PreEnrollmentVocationalSchoolEntity> vocationalSchoolsDB = requestEntity.getVocationalSchools();
-        List<VocationalProgramSelection> selectionsInDBList = CopyUtils.convert(vocationalSchoolsDB, VocationalProgramSelection.class);
-        Set<VocationalProgramSelection> selectionsInDB = new HashSet<>(selectionsInDBList);
+        List<com.gemini.commons.beans.forms.VocationalProgramSelection> selectionsInDBList = CopyUtils.convert(vocationalSchoolsDB, com.gemini.commons.beans.forms.VocationalProgramSelection.class);
+        Set<com.gemini.commons.beans.forms.VocationalProgramSelection> selectionsInDB = new HashSet<>(selectionsInDBList);
 
         if (ValidationUtils.valid(request.getSchoolIdToDelete())) {
-            List<VocationalProgramSelection> schoolIdProgramsToDelete = FluentIterable
+            List<com.gemini.commons.beans.forms.VocationalProgramSelection> schoolIdProgramsToDelete = FluentIterable
                     .from(vocationalSchoolsDB)
                     .filter(new Predicate<PreEnrollmentVocationalSchoolEntity>() {
                         @Override
@@ -343,17 +344,17 @@ public class PreEnrollmentService {
                             return vocSchoolEntity.getSchoolId().equals(request.getSchoolIdToDelete());
                         }
                     })
-                    .transform(new Function<PreEnrollmentVocationalSchoolEntity, VocationalProgramSelection>() {
+                    .transform(new Function<PreEnrollmentVocationalSchoolEntity, com.gemini.commons.beans.forms.VocationalProgramSelection>() {
                         @Override
-                        public VocationalProgramSelection apply(PreEnrollmentVocationalSchoolEntity vocSchoolEntity) {
-                            return CopyUtils.convert(vocSchoolEntity, VocationalProgramSelection.class);
+                        public com.gemini.commons.beans.forms.VocationalProgramSelection apply(PreEnrollmentVocationalSchoolEntity vocSchoolEntity) {
+                            return CopyUtils.convert(vocSchoolEntity, com.gemini.commons.beans.forms.VocationalProgramSelection.class);
                         }
                     }).toList();
             request.setProgramsToDelete(schoolIdProgramsToDelete);
         }
 
 
-        Set<VocationalProgramSelection> selectionsToSave = Sets.newHashSet();
+        Set<com.gemini.commons.beans.forms.VocationalProgramSelection> selectionsToSave = Sets.newHashSet();
         boolean deleting = request.getProgramsToDelete() != null && !request.getProgramsToDelete().isEmpty();
         boolean adding = request.getPrograms() != null && !request.getPrograms().isEmpty();
         //deleting
@@ -369,9 +370,9 @@ public class PreEnrollmentService {
             selectionsToSave = selectionsInDB;
         }
 
-        List<VocationalProgramSelection> list = Lists.newArrayList(selectionsToSave);
+        List<com.gemini.commons.beans.forms.VocationalProgramSelection> list = Lists.newArrayList(selectionsToSave);
 
-        Function<VocationalProgramSelection, PreEnrollmentVocationalSchoolEntity> toPreEnrollmentVocSchool = new Function<VocationalProgramSelection, PreEnrollmentVocationalSchoolEntity>() {
+        Function<com.gemini.commons.beans.forms.VocationalProgramSelection, PreEnrollmentVocationalSchoolEntity> toPreEnrollmentVocSchool = new Function<com.gemini.commons.beans.forms.VocationalProgramSelection, PreEnrollmentVocationalSchoolEntity>() {
             public PreEnrollmentVocationalSchoolEntity apply(VocationalProgramSelection program) {
                 PreEnrollmentVocationalSchoolEntity vocationalSchool = CopyUtils.convert(program, PreEnrollmentVocationalSchoolEntity.class);
                 School school = smaxService.findSchoolById(program.getSchoolId());
@@ -408,16 +409,16 @@ public class PreEnrollmentService {
         return preEnrollmentRepository.save(requestEntity) != null;
     }
 
-    public AlternateSchoolPreEnrollmentBean findAlternatePreEnrollmentById(Long id) {
+    public com.gemini.commons.beans.forms.AlternateSchoolPreEnrollmentBean findAlternatePreEnrollmentById(Long id) {
         PreEnrollmentRequestEntity entity = preEnrollmentRepository.findByIdAndRequestStatusIs(id, RequestStatus.ACTIVE);
         if (entity == null)
             return null;
-        PreEnrollmentBean preEnrollment = getPreEnrollmentBean(entity);
-        AlternateSchoolPreEnrollmentBean alternatePreEnrollmentBean = CopyUtils.convert(preEnrollment, AlternateSchoolPreEnrollmentBean.class);
-        Function<PreEnrollmentAlternateSchoolEntity, AlternateSchoolBean> toAlternate = new Function<PreEnrollmentAlternateSchoolEntity, AlternateSchoolBean>() {
+        com.gemini.commons.beans.forms.PreEnrollmentBean preEnrollment = getPreEnrollmentBean(entity);
+        com.gemini.commons.beans.forms.AlternateSchoolPreEnrollmentBean alternatePreEnrollmentBean = CopyUtils.convert(preEnrollment, com.gemini.commons.beans.forms.AlternateSchoolPreEnrollmentBean.class);
+        Function<PreEnrollmentAlternateSchoolEntity, com.gemini.commons.beans.forms.AlternateSchoolBean> toAlternate = new Function<PreEnrollmentAlternateSchoolEntity, com.gemini.commons.beans.forms.AlternateSchoolBean>() {
             @Override
-            public AlternateSchoolBean apply(PreEnrollmentAlternateSchoolEntity altEntity) {
-                AlternateSchoolBean bean = new AlternateSchoolBean();
+            public com.gemini.commons.beans.forms.AlternateSchoolBean apply(PreEnrollmentAlternateSchoolEntity altEntity) {
+                com.gemini.commons.beans.forms.AlternateSchoolBean bean = new com.gemini.commons.beans.forms.AlternateSchoolBean();
                 School school = smaxService.findSchoolById(altEntity.getSchoolId());
                 bean.setPriority(altEntity.getPriority());
                 bean.setRegionId(school.getRegionId());
@@ -435,20 +436,20 @@ public class PreEnrollmentService {
         requestEntity.setType(request.getType());
 
         final List<PreEnrollmentAlternateSchoolEntity> alternateSchoolsDB = requestEntity.getAlternateSchools();
-        List<AlternateSchoolBean> altSchoolsInDBList = CopyUtils.convert(alternateSchoolsDB, AlternateSchoolBean.class);
-        Set<AlternateSchoolBean> alternateSchoolsFormInDb = new HashSet<>(altSchoolsInDBList);
+        List<com.gemini.commons.beans.forms.AlternateSchoolBean> altSchoolsInDBList = CopyUtils.convert(alternateSchoolsDB, com.gemini.commons.beans.forms.AlternateSchoolBean.class);
+        Set<com.gemini.commons.beans.forms.AlternateSchoolBean> alternateSchoolsFormInDb = new HashSet<>(altSchoolsInDBList);
 
-        List<AlternateSchoolBean> cleanedList = FluentIterable
+        List<com.gemini.commons.beans.forms.AlternateSchoolBean> cleanedList = FluentIterable
                 .from(request.getAlternateSchools())
-                .filter(new Predicate<AlternateSchoolBean>() {
+                .filter(new Predicate<com.gemini.commons.beans.forms.AlternateSchoolBean>() {
                     @Override
-                    public boolean apply(AlternateSchoolBean alternateSchoolBean) {
+                    public boolean apply(com.gemini.commons.beans.forms.AlternateSchoolBean alternateSchoolBean) {
                         return ValidationUtils.valid(alternateSchoolBean.getSchoolId());
                     }
                 }).toList();
 
 
-        Set<AlternateSchoolBean> alternateSchoolToSave = Sets.newHashSet();
+        Set<com.gemini.commons.beans.forms.AlternateSchoolBean> alternateSchoolToSave = Sets.newHashSet();
         boolean deleting = request.getAlternateSchoolsToDelete() != null && !request.getAlternateSchoolsToDelete().isEmpty();
         boolean adding = cleanedList != null && !cleanedList.isEmpty();
         //deleting
@@ -466,9 +467,9 @@ public class PreEnrollmentService {
 
         List<PreEnrollmentAlternateSchoolEntity> toSave = FluentIterable
                 .from(Lists.newArrayList(alternateSchoolToSave))
-                .transform(new Function<AlternateSchoolBean, PreEnrollmentAlternateSchoolEntity>() {
+                .transform(new Function<com.gemini.commons.beans.forms.AlternateSchoolBean, PreEnrollmentAlternateSchoolEntity>() {
                     @Override
-                    public PreEnrollmentAlternateSchoolEntity apply(AlternateSchoolBean alternateSchool) {
+                    public PreEnrollmentAlternateSchoolEntity apply(com.gemini.commons.beans.forms.AlternateSchoolBean alternateSchool) {
                         PreEnrollmentAlternateSchoolEntity entity = new PreEnrollmentAlternateSchoolEntity();
                         School school = smaxService.findSchoolById(alternateSchool.getSchoolId());
                         entity.setPriority(alternateSchool.getPriority());
@@ -520,9 +521,9 @@ public class PreEnrollmentService {
     }
 
     //    Private Methods
-    private PreEnrollmentStudentInfoBean getPreEnrollmentStudentInfoBean(PreEnrollmentRequestEntity entity) {
+    private com.gemini.commons.beans.forms.PreEnrollmentStudentInfoBean getPreEnrollmentStudentInfoBean(PreEnrollmentRequestEntity entity) {
         StudentEntity studentEntity = entity.getStudent();
-        PreEnrollmentStudentInfoBean studentInfo = CopyUtils.convert(studentEntity, PreEnrollmentStudentInfoBean.class);
+        com.gemini.commons.beans.forms.PreEnrollmentStudentInfoBean studentInfo = CopyUtils.convert(studentEntity, com.gemini.commons.beans.forms.PreEnrollmentStudentInfoBean.class);
         Utils.copyLastNames(studentEntity, studentInfo);
         studentInfo.setStudentNumber(studentEntity.getExtStudentNumber());
         studentInfo.setId(studentEntity.getId());
@@ -534,8 +535,8 @@ public class PreEnrollmentService {
         return studentInfo;
     }
 
-    private PreEnrollmentBean getPreEnrollmentBean(PreEnrollmentRequestEntity entity) {
-        PreEnrollmentBean enrollmentBean = CopyUtils.convert(entity, PreEnrollmentBean.class);
+    private com.gemini.commons.beans.forms.PreEnrollmentBean getPreEnrollmentBean(PreEnrollmentRequestEntity entity) {
+        com.gemini.commons.beans.forms.PreEnrollmentBean enrollmentBean = CopyUtils.convert(entity, com.gemini.commons.beans.forms.PreEnrollmentBean.class);
         enrollmentBean.setStudent(getPreEnrollmentStudentInfoBean(entity));
         if (ValidationUtils.valid(entity.getSchoolId())) {
             School school = getSchool(entity.getSchoolId());
@@ -639,7 +640,7 @@ public class PreEnrollmentService {
         requestEntity.setMunicipalityCode(school.getCityCd());
     }
 
-    private void setGradeLevelInfo(String nextLevel, PreEnrollmentBean enrollmentBean) {
+    private void setGradeLevelInfo(String nextLevel, com.gemini.commons.beans.forms.PreEnrollmentBean enrollmentBean) {
         if (StringUtils.hasText(nextLevel)) {
             GradeLevel gradeLevel = smaxService.getGradeLevelByCode(nextLevel);
             if (gradeLevel != null) {

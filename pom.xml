@@ -36,7 +36,7 @@
         <profile>
             <id>dev</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>false</activeByDefault>
             </activation>
             <properties>
                 <war.name>srs-api</war.name>
@@ -128,17 +128,17 @@
         <profile>
             <id>tmaxio-dev-test</id>
             <activation>
-                <activeByDefault>false</activeByDefault>
+                <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
                 <war.name>srs-api</war.name>
                 <!--main db props-->
-                <main.db.jdbc.url>jdbc:mysql://localhost:3306/SRS</main.db.jdbc.url>
-                <main.db.user>srs</main.db.user>
-                <main.db.password>12345678</main.db.password>
-                <main.db.driver.name>com.mysql.jdbc.Driver</main.db.driver.name>
-                <main.db.platform>mysql</main.db.platform>
-                <main.db.jpa.mode>create-drop</main.db.jpa.mode>
+                <main.db.jdbc.url>jdbc:oracle:thin:@auohsmaxi72-vip.oracleoutsourcing.com:11510/TMAX1O.ORACLEOUTSOURCING.COM</main.db.jdbc.url>
+                <main.db.user>PRDE_SRS</main.db.user>
+                <main.db.password>depl0y2@!8</main.db.password>
+                <main.db.driver.name>oracle.jdbc.driver.OracleDriver</main.db.driver.name>
+                <main.db.platform>oracle</main.db.platform>
+                <main.db.jpa.mode>none</main.db.jpa.mode>
                 <!--smax db props-->
                 <smax.db.jdbc.url>jdbc:oracle:thin:@auohsmaxi72-vip.oracleoutsourcing.com:11510/TMAX1O.ORACLEOUTSOURCING.COM</smax.db.jdbc.url>
                 <smax.db.user>PRDE_SRS</smax.db.user>
@@ -293,6 +293,11 @@
                 <artifactId>log4j</artifactId>
                 <version>1.2.17</version>
             </dependency>
+            <dependency>
+                <groupId>com.gemini</groupId>
+                <artifactId>srs-common</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -301,7 +306,7 @@
             <id>mvnrepository</id>
             <url>http://repo1.maven.org/maven2</url>
             <snapshots>
-                <enabled>false</enabled>
+                <enabled>true</enabled>
             </snapshots>
             <releases>
                 <enabled>true</enabled>

@@ -1,7 +1,7 @@
 package com.gemini.controllers;
 
 import com.gemini.beans.forms.User;
-import com.gemini.beans.responses.HomeResponse;
+import com.gemini.commons.beans.responses.HomeResponse;
 import com.gemini.services.PreEnrollmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

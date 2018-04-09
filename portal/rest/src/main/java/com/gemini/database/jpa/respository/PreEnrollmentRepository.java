@@ -1,6 +1,6 @@
 package com.gemini.database.jpa.respository;
 
-import com.gemini.beans.types.RequestStatus;
+import com.gemini.commons.beans.types.RequestStatus;
 import com.gemini.database.jpa.entities.PreEnrollmentRequestEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

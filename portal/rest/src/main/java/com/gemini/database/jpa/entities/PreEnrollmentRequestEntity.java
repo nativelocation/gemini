@@ -1,8 +1,8 @@
 package com.gemini.database.jpa.entities;
 
-import com.gemini.beans.types.ReasonForNotAttendingSchool;
-import com.gemini.beans.types.RequestStatus;
-import com.gemini.beans.types.EnrollmentType;
+import com.gemini.commons.beans.types.ReasonForNotAttendingSchool;
+import com.gemini.commons.beans.types.RequestStatus;
+import com.gemini.commons.beans.types.EnrollmentType;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 

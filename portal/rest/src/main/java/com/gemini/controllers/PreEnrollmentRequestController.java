@@ -1,7 +1,8 @@
 package com.gemini.controllers;
 
-import com.gemini.beans.forms.*;
-import com.gemini.beans.integration.SchoolResponseResponse;
+import com.gemini.beans.forms.User;
+import com.gemini.commons.beans.forms.VocationalProgramSelection;
+import com.gemini.commons.beans.integration.SchoolResponseResponse;
 import com.gemini.beans.internal.RequestSearchResult;
 import com.gemini.beans.internal.SchoolValidationRequest;
 import com.gemini.beans.requests.ReasonForNotAttendingRequest;
@@ -9,13 +10,13 @@ import com.gemini.beans.requests.enrollment.AlternateSchoolPreEnrollmentSubmitRe
 import com.gemini.beans.requests.enrollment.PreEnrollmentInitialRequest;
 import com.gemini.beans.requests.enrollment.PreEnrollmentSubmitRequest;
 import com.gemini.beans.requests.enrollment.VocationalPreEnrollmentSubmitRequest;
-import com.gemini.beans.responses.ResponseBase;
-import com.gemini.beans.types.ReasonForNotAttendingSchool;
+import com.gemini.commons.beans.responses.ResponseBase;
+import com.gemini.commons.beans.types.ReasonForNotAttendingSchool;
+import com.gemini.commons.utils.ValidationUtils;
 import com.gemini.services.CommonService;
 import com.gemini.services.MailService;
 import com.gemini.services.PreEnrollmentService;
 import com.gemini.utils.MessageHelper;
-import com.gemini.utils.ValidationUtils;
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import org.slf4j.Logger;
@@ -52,7 +53,7 @@ public class PreEnrollmentRequestController {
 
     @RequestMapping(value = "/{requestId}")
     public ResponseEntity<ResponseBase> retrieve(@PathVariable Long requestId) {
-        PreEnrollmentStudentInfoBean studentInfo = null;
+        com.gemini.commons.beans.forms.PreEnrollmentStudentInfoBean studentInfo = null;
         //todo: validate user has access to this enrollment
         if (ValidationUtils.valid(requestId))
             studentInfo = preEnrollmentService.findPreEnrollmentById(requestId);
@@ -113,13 +114,13 @@ public class PreEnrollmentRequestController {
     }
 
     @RequestMapping(value = "/{requestId}/address")
-    public ResponseEntity<PreEnrollmentAddressBean> getPreEnrollmentAddress(@PathVariable Long requestId) {
-        PreEnrollmentAddressBean addressBean = preEnrollmentService.getAddress(requestId);
+    public ResponseEntity<com.gemini.commons.beans.forms.PreEnrollmentAddressBean> getPreEnrollmentAddress(@PathVariable Long requestId) {
+        com.gemini.commons.beans.forms.PreEnrollmentAddressBean addressBean = preEnrollmentService.getAddress(requestId);
         return ResponseEntity.ok(addressBean);
     }
 
     @RequestMapping(value = "/{requestId}/address/save", method = RequestMethod.POST)
-    public ResponseEntity<ResponseBase> savePreEnrollmentAddress(@PathVariable Long requestId, @Valid @RequestBody PreEnrollmentAddressBean request, BindingResult result) {
+    public ResponseEntity<ResponseBase> savePreEnrollmentAddress(@PathVariable Long requestId, @Valid @RequestBody com.gemini.commons.beans.forms.PreEnrollmentAddressBean request, BindingResult result) {
         boolean validRequest = preEnrollmentService.validAddressForRequestId(requestId, request.getPhysical(), request.getPostal());
         if (validRequest) {
 
@@ -136,13 +137,13 @@ public class PreEnrollmentRequestController {
     }
 
     @RequestMapping(value = "/reasons/for/not/attending/school", method = RequestMethod.GET)
-    public ResponseEntity<List<EnumCode>> getReasonCodes() {
-        List<EnumCode> enumCodes = FluentIterable
+    public ResponseEntity<List<com.gemini.commons.beans.forms.EnumCode>> getReasonCodes() {
+        List<com.gemini.commons.beans.forms.EnumCode> enumCodes = FluentIterable
                 .from(ReasonForNotAttendingSchool.values())
-                .transform(new Function<ReasonForNotAttendingSchool, EnumCode>() {
+                .transform(new Function<ReasonForNotAttendingSchool, com.gemini.commons.beans.forms.EnumCode>() {
                     @Override
-                    public EnumCode apply(ReasonForNotAttendingSchool reason) {
-                        return new EnumCode(reason.name(), reason.getDescription());
+                    public com.gemini.commons.beans.forms.EnumCode apply(ReasonForNotAttendingSchool reason) {
+                        return new com.gemini.commons.beans.forms.EnumCode(reason.name(), reason.getDescription());
                     }
                 })
                 .toList();
@@ -164,7 +165,7 @@ public class PreEnrollmentRequestController {
     //alternate schools
     @RequestMapping(value = "/alternate/{requestId}")
     public ResponseEntity<ResponseBase> retrieveAlternatePreEnrollment(@PathVariable Long requestId) {
-        AlternateSchoolPreEnrollmentBean alternatePreEnrollmentBean = null;
+        com.gemini.commons.beans.forms.AlternateSchoolPreEnrollmentBean alternatePreEnrollmentBean = null;
         //todo: validate user has access to this enrollment
         if (ValidationUtils.valid(requestId))
             alternatePreEnrollmentBean = preEnrollmentService.findAlternatePreEnrollmentById(requestId);
@@ -186,7 +187,7 @@ public class PreEnrollmentRequestController {
 
     @RequestMapping(value = "/alternate/submit", method = RequestMethod.POST)
     public ResponseEntity<ResponseBase> alternateSchoolSubmit(@RequestBody AlternateSchoolPreEnrollmentSubmitRequest request, @AuthenticationPrincipal User loggedUser) {
-        AlternateSchoolPreEnrollmentBean alternatePreEnrollment = preEnrollmentService.findAlternatePreEnrollmentById(request.getRequestId());
+        com.gemini.commons.beans.forms.AlternateSchoolPreEnrollmentBean alternatePreEnrollment = preEnrollmentService.findAlternatePreEnrollmentById(request.getRequestId());
         if (commonService.isInvalidMinAlternateSchools(alternatePreEnrollment.getAlternateSchools())) {
             ResponseBase base = ResponseBase.error("Validaci\u00f3n", messageHelper.processMessages("enrollment.regular.validation"));
             return ResponseEntity.badRequest().body(base);
@@ -207,7 +208,7 @@ public class PreEnrollmentRequestController {
     //vocational
     @RequestMapping(value = "/vocational/{requestId}")
     public ResponseEntity<ResponseBase> retrieveVocationalPreEnrollment(@PathVariable Long requestId) {
-        VocationalPreEnrollmentBean vocationalPreEnrollment = null;
+        com.gemini.commons.beans.forms.VocationalPreEnrollmentBean vocationalPreEnrollment = null;
         //todo: validate user has access to this enrollment
         if (ValidationUtils.valid(requestId))
             vocationalPreEnrollment = preEnrollmentService.findVocationalPreEnrollmentById(requestId);
@@ -230,7 +231,7 @@ public class PreEnrollmentRequestController {
 
     @RequestMapping(value = "/vocational/submit", method = RequestMethod.POST)
     public ResponseEntity<ResponseBase> vocationalSubmit(@RequestBody VocationalPreEnrollmentSubmitRequest request, @AuthenticationPrincipal User loggedUser) {
-        VocationalPreEnrollmentBean vocational = preEnrollmentService.findVocationalPreEnrollmentById(request.getRequestId());
+        com.gemini.commons.beans.forms.VocationalPreEnrollmentBean vocational = preEnrollmentService.findVocationalPreEnrollmentById(request.getRequestId());
         if (vocational.getEnrollments() == null || vocational.getEnrollments().isEmpty()) {
             ResponseBase base = ResponseBase.error("Validaci\u00f3n", messageHelper.processMessages("enrollment.occupational.validation"));
             return ResponseEntity.badRequest().body(base);
@@ -250,7 +251,7 @@ public class PreEnrollmentRequestController {
     }
 
     private ResponseEntity<ResponseBase> handleCreatePreEnrollment(PreEnrollmentInitialRequest initialRequest, User loggedUser) {
-        PreEnrollmentBean preEnrollmentBean = preEnrollmentService.createPreEnrollment(initialRequest, loggedUser);
+        com.gemini.commons.beans.forms.PreEnrollmentBean preEnrollmentBean = preEnrollmentService.createPreEnrollment(initialRequest, loggedUser);
 
         ResponseBase response;
         if (preEnrollmentBean != null)
@@ -261,7 +262,7 @@ public class PreEnrollmentRequestController {
     }
 
     private ResponseEntity<ResponseBase> handleEditPreEnrollment(PreEnrollmentInitialRequest initialRequest) {
-        PreEnrollmentBean preEnrollmentBean = preEnrollmentService.updatePreEnrollment(initialRequest);
+        com.gemini.commons.beans.forms.PreEnrollmentBean preEnrollmentBean = preEnrollmentService.updatePreEnrollment(initialRequest);
         if (preEnrollmentBean != null)
             return ResponseEntity.ok(ResponseBase.success(preEnrollmentBean.getId(), preEnrollmentBean));
         return ResponseEntity.ok(ResponseBase.error("Error updating pre-enrollment"));
@@ -283,9 +284,9 @@ public class PreEnrollmentRequestController {
     private List<SchoolResponseResponse> doSchoolAvailableSpaceValidation(final AlternateSchoolPreEnrollmentSubmitRequest request) {
         List<SchoolValidationRequest> schoolsIdsToValidate = FluentIterable
                 .from(request.getAlternateSchools())
-                .transform(new Function<AlternateSchoolBean, SchoolValidationRequest>() {
+                .transform(new Function<com.gemini.commons.beans.forms.AlternateSchoolBean, SchoolValidationRequest>() {
                     @Override
-                    public SchoolValidationRequest apply(AlternateSchoolBean alternateSchool) {
+                    public SchoolValidationRequest apply(com.gemini.commons.beans.forms.AlternateSchoolBean alternateSchool) {
                         return new SchoolValidationRequest(alternateSchool.getSchoolId(), request.getNextGradeLevel());
                     }
                 }).toList();
@@ -295,7 +296,7 @@ public class PreEnrollmentRequestController {
     private List<SchoolResponseResponse> doSchoolAvailableSpaceValidation(final VocationalPreEnrollmentSubmitRequest request) {
         List<SchoolValidationRequest> schoolsIdsToValidate = FluentIterable
                 .from(request.getPrograms())
-                .transform(new Function<VocationalProgramSelection, SchoolValidationRequest>() {
+                .transform(new Function<com.gemini.commons.beans.forms.VocationalProgramSelection, SchoolValidationRequest>() {
                     @Override
                     public SchoolValidationRequest apply(VocationalProgramSelection vocationalProgram) {
                         return new SchoolValidationRequest(vocationalProgram.getSchoolId(), request.getNextGradeLevel());

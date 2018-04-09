@@ -13,7 +13,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Registro en Linea :: JS Enum Code Generation </name>
+    <name>helper :: JS Enum Code Generation </name>
     <description>Standalone program to create JS Enum codes</description>
 
 

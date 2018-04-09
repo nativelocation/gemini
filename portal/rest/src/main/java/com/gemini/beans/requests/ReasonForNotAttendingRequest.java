@@ -1,6 +1,6 @@
 package com.gemini.beans.requests;
 
-import com.gemini.beans.types.ReasonForNotAttendingSchool;
+import com.gemini.commons.beans.types.ReasonForNotAttendingSchool;
 
 import javax.validation.constraints.NotNull;
 

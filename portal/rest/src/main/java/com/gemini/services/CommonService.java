@@ -1,6 +1,6 @@
 package com.gemini.services;
 
-import com.gemini.database.dao.beans.EnrollmentInfo;
+import com.gemini.commons.database.beans.EnrollmentInfo;
 import com.gemini.database.jpa.entities.ConfigEntity;
 import com.gemini.database.jpa.jdbc.CommonDao;
 import com.gemini.database.jpa.respository.ConfigRepository;
