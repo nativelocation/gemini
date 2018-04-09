@@ -6,6 +6,7 @@ import './assets/css/dashboard.css'
 import './assets/css/navDashboard.css'
 import './assets/css/styles.css'
 import './assets/css/login.css'
+import './assets/css/components.css'
 
 class Layout extends Component {
     render() {

@@ -29,12 +29,12 @@ class Login extends Component {
     }
 
     register(e) {
-        e.preventDefault();
-        this.props.loginUser({
-            email: this.state.email,
-            password: this.state.password
-        })
-
+        // e.preventDefault();
+        // this.props.loginUser({
+        //     email: this.state.email,
+        //     password: this.state.password
+        // })
+        this.props.history.push('/')
     }
 
     verifyCallback(response) {

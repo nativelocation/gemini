@@ -9,10 +9,10 @@ import userPlaceholder from '../assets/img/userPlaceholder.png'
 class NavDashboard extends React.Component {
   state = {
     isVisible: false
-  };
+  }
 
   render() {
-    let style = {};
+    let style = {}
     return (
       <nav className='navbar navbar-default' style={style}>
         <div className='navbar-header'>
@@ -25,8 +25,8 @@ class NavDashboard extends React.Component {
             <a
               className='dropdown-toggle'
               onClick={e => {
-                e.preventDefault();
-                this.setState({ isVisible: !this.state.isVisible });
+                e.preventDefault()
+                this.setState({ isVisible: !this.state.isVisible })
               }}
               href='#dropdown'
             >
@@ -47,8 +47,8 @@ class NavDashboard extends React.Component {
           </li>
         </ul>
       </nav>
-    );
+    )
   }
 }
 
-export default NavDashboard;
+export default NavDashboard
