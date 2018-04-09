@@ -117,11 +117,11 @@ class TextInput extends Component {
             ? value.length === 1 ? value.trim() : value
             : this.state.value;
 
-        // this.setState({value: value, hasError: this.hasError(value)}, () => {
-        //     if (this.props.onChange)
-        //         this.props.onChange(e);
-        //     this.editing = false;
-        // });
+        this.setState({value: value, hasError: this.hasError(value)}, () => {
+            if (this.props.onChange)
+                this.props.onChange(e);
+            this.editing = false;
+        });
 
     }
 

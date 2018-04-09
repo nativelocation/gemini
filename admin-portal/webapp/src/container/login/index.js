@@ -22,39 +22,19 @@ class Login extends Component {
             password: ''
         };
         this.register = this.register.bind(this);
-        this.inputHandler = this.inputHandler.bind(this);
+        this.inputHandlerEmail = this.inputHandlerEmail.bind(this);
+        this.inputHandlerPass = this.inputHandlerPass.bind(this);
         this.validForm = this.validForm.bind(this);
         this.verifyCallback = this.verifyCallback.bind(this);
     }
 
-    componentWillMount() {
-        // this.props.cleanRegistration();
-    }
-
-    // getValidationMessages() {
-    //     let messages = [];
-    //     let form = this.props.form;
-    //     let emailAreEquals = form.email === form.confirmEmail;
-
-    //     if (!this.refs.email.valid())
-    //         messages.push(UIHelper.getText("emailInvalid"));
-    //     if (!this.refs.confirmEmail.valid())
-    //         messages.push(UIHelper.getText("confirmEmailInvalid"));
-    //     if (!emailAreEquals)
-    //         messages.push(UIHelper.getText("emailAndConfirmInvalid"));
-    //     // if (!this.state.token)
-    //     //     messages.push(UIHelper.getText("missingReCaptchaToken"));
-    //     return messages;
-    // }
-
     register(e) {
-        let user = this.props.form;
         e.preventDefault();
-        let element = e.target.value;
-        console.log(element, this.props);
-        this.props.history.push('/')
+        this.props.loginUser({
+            email: this.state.email,
+            password: this.state.password
+        })
 
-        // this.props.loginUser(form)
     }
 
     verifyCallback(response) {
@@ -78,13 +58,23 @@ class Login extends Component {
         this.setState({...this.state, valid: allValid && emailAreEquals && this.state.token})
     }
 
-    inputHandler(e) {
-        let form = this.props.form;
+    inputHandlerEmail(e) {
+        // let form = this.props.form;
         let element = e.target;
-        console.log(element);
-        form[element.id] = element.value;
+        this.setState({
+            email: e.target.value
+        })
+        // console.log(element);
+        // form[element.id] = element.value;
         // this.validForm();
-        console.log(form)
+        // console.log(form)
+    }
+
+    inputHandlerPass(e) {
+        let element = e.target;
+        this.setState({
+            password: e.target.value
+        })
     }
 
     render() {
@@ -92,13 +82,13 @@ class Login extends Component {
         return (
             <div className='dashboard'>
                 <div className='main'>
-                    <nav className='navbar navbar-default'>
+                    {/* <nav className='navbar navbar-default'>
                         <div className='navbar-header'>
                         <Link className='navbar-brand' to='/home'>
                             <img src={logo} alt='' />
                         </Link>
                         </div>
-                    </nav>
+                    </nav> */}
                     <div className='display full'>
                         <div className='panel panel-default panel-small'>
                             <div className='panel-heading'>
@@ -117,15 +107,15 @@ class Login extends Component {
                                             <span className="f20slg">{UIHelper.getText("loginPage")}</span>
                                         </div>
                                         <div className="body d-flex align-items-center flex-column justify-content-end">
-                                            <form onSubmit={this.register}>
+                                            <form>
                                                 <div className="row plr15 ">
                                                     <div className="col-md-12">
                                                         <TextInput id="email"
                                                                 type="email"
                                                                 ref="email"
                                                                 label="Usuario SIE"
-                                                                onChange={this.inputHandler}
-                                                                value={form.email}
+                                                                onChange={this.inputHandlerEmail}
+                                                                value={this.state.email}
                                                                 iconname="icon-mail"
                                                                 grouped/>
                                                     </div>
@@ -136,8 +126,8 @@ class Login extends Component {
                                                                 type="password"
                                                                 ref="password"
                                                                 label="Password"
-                                                                onChange={this.inputHandler}
-                                                                value={form.password}
+                                                                onChange={this.inputHandlerPass}
+                                                                value={this.state.password}
                                                                 iconname="icon-eye"
                                                                 grouped/>
                                                     </div>
@@ -148,7 +138,8 @@ class Login extends Component {
                                                         <button
                                                             style={{paddingLeft: 20}}
                                                             className="button-green mr30 mob-mb30px"
-                                                            type="submit"
+                                                            // type="submit"
+                                                            onClick={this.register}
                                                         >
                                                             {UIHelper.getText("loginButton")}
                                                         </button>
@@ -169,13 +160,14 @@ class Login extends Component {
 }
 
 function mapStateToProps(store) {
-    return { form: store.loginStore.form }
+    return { form: store.login.form }
 }
 
 function mapDispatchToActions(dispatch) {
     return {
-        dispatch,
-        loginUser: bindActionCreators(Actions.loginUser, dispatch)
+        loginUser: function(data) {
+            return dispatch(Actions.loginUser(data))
+        }
     }
 }
 
