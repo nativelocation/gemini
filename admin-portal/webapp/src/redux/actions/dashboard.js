@@ -1,8 +1,6 @@
+import { createAction } from 'redux-actions'
 import * as constants from '../constants'
 
-export const dashboard = () => (dispatch) => {
-    dispatch({
-        type: constants.DASHBOARD_START
-    })
-};
-
+export const dashboard = createAction(
+    constants.DASHBOARD_START
+)

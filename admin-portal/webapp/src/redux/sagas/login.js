@@ -3,8 +3,8 @@ import { put, call, takeEvery, takeLatest } from 'redux-saga/effects'
 
 import * as constants from '../constants'
 
-function* asyncLoginStart() {
-    console.log('asyncLoginStart')
+function* asyncLoginStart(payload) {
+    console.log('asyncLoginStart', payload)
 }
 
 export function* storeLogin() {
