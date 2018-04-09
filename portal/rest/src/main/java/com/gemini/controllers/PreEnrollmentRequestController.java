@@ -2,7 +2,7 @@ package com.gemini.controllers;
 
 import com.gemini.beans.forms.User;
 import com.gemini.commons.beans.forms.VocationalProgramSelection;
-import com.gemini.commons.beans.integration.SchoolResponseResponse;
+import com.gemini.commons.beans.integration.SchoolValidationResponse;
 import com.gemini.beans.internal.RequestSearchResult;
 import com.gemini.beans.internal.SchoolValidationRequest;
 import com.gemini.beans.requests.ReasonForNotAttendingRequest;
@@ -174,7 +174,7 @@ public class PreEnrollmentRequestController {
 
     @RequestMapping(value = "/alternate/partial/save", method = RequestMethod.POST)
     public ResponseEntity<ResponseBase> partialAlternatePreEnrollmentSave(@RequestBody AlternateSchoolPreEnrollmentSubmitRequest request) {
-        List<SchoolResponseResponse> validationResponse = doSchoolAvailableSpaceValidation(request);
+        List<SchoolValidationResponse> validationResponse = doSchoolAvailableSpaceValidation(request);
         ResponseEntity<ResponseBase> response = doValidation(validationResponse);
         if (response != null) {
             return response;
@@ -219,7 +219,7 @@ public class PreEnrollmentRequestController {
     public ResponseEntity<ResponseBase> partialVocationalSubmit(@RequestBody VocationalPreEnrollmentSubmitRequest request) {
         boolean saved = preEnrollmentService.partialVocationalPreEnrollmentSave(request);
 
-        List<SchoolResponseResponse> validationResponse = doSchoolAvailableSpaceValidation(request);
+        List<SchoolValidationResponse> validationResponse = doSchoolAvailableSpaceValidation(request);
         ResponseEntity<ResponseBase> response = doValidation(validationResponse);
         if (response != null) {
             return response;
@@ -268,11 +268,11 @@ public class PreEnrollmentRequestController {
         return ResponseEntity.ok(ResponseBase.error("Error updating pre-enrollment"));
     }
 
-    private ResponseEntity<ResponseBase> doValidation(List<SchoolResponseResponse> validationResponse) {
+    private ResponseEntity<ResponseBase> doValidation(List<SchoolValidationResponse> validationResponse) {
         if (validationResponse != null && !validationResponse.isEmpty()) {
             ResponseBase response =
                     ResponseBase.error("Validaci\u00f3n de Espacios Disponibles en las Escuelas");
-            for (SchoolResponseResponse schoolResponse : validationResponse) {
+            for (SchoolValidationResponse schoolResponse : validationResponse) {
                 String message = messageHelper.processMessage("enrollment.school.available.space.validation");
                 response.addError(String.format("%s %s", schoolResponse.toDisplayName(), message));
             }
@@ -281,7 +281,7 @@ public class PreEnrollmentRequestController {
         return null;
     }
 
-    private List<SchoolResponseResponse> doSchoolAvailableSpaceValidation(final AlternateSchoolPreEnrollmentSubmitRequest request) {
+    private List<SchoolValidationResponse> doSchoolAvailableSpaceValidation(final AlternateSchoolPreEnrollmentSubmitRequest request) {
         List<SchoolValidationRequest> schoolsIdsToValidate = FluentIterable
                 .from(request.getAlternateSchools())
                 .transform(new Function<com.gemini.commons.beans.forms.AlternateSchoolBean, SchoolValidationRequest>() {
@@ -293,7 +293,7 @@ public class PreEnrollmentRequestController {
         return doSchoolAvailableSpaceValidation(schoolsIdsToValidate);
     }
 
-    private List<SchoolResponseResponse> doSchoolAvailableSpaceValidation(final VocationalPreEnrollmentSubmitRequest request) {
+    private List<SchoolValidationResponse> doSchoolAvailableSpaceValidation(final VocationalPreEnrollmentSubmitRequest request) {
         List<SchoolValidationRequest> schoolsIdsToValidate = FluentIterable
                 .from(request.getPrograms())
                 .transform(new Function<com.gemini.commons.beans.forms.VocationalProgramSelection, SchoolValidationRequest>() {
@@ -305,7 +305,7 @@ public class PreEnrollmentRequestController {
         return doSchoolAvailableSpaceValidation(schoolsIdsToValidate);
     }
 
-    private List<SchoolResponseResponse> doSchoolAvailableSpaceValidation(List<SchoolValidationRequest> request) {
+    private List<SchoolValidationResponse> doSchoolAvailableSpaceValidation(List<SchoolValidationRequest> request) {
         // do black magic here
         return Collections.emptyList();
     }

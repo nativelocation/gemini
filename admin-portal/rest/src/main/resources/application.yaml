@@ -32,6 +32,6 @@ spring:
     username: srs
     password: 12345678
     driver-class-name: com.mysql.jdbc.Driver
+    platform: mysql
     hikari:
       maximum-pool-size: 30
-    platform: mysql

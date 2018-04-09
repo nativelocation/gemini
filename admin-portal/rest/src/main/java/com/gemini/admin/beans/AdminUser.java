@@ -4,9 +4,7 @@ import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,22 +14,32 @@ import java.util.List;
  */
 public class AdminUser implements UserDetails, CredentialsContainer {
 
-    private Long secUserId;
+    private Long userId;
     private String username;
     private String password;
     private boolean enabled;
-
-    private int precedence = 2;
+    private int precedence;
+    private final Set<GrantedAuthority> authorities;
     private List<Long> allowedRegions;
     private List<Long> allowedSchools;
 
-
-    public Long getSecUserId() {
-        return secUserId;
+    public AdminUser(Long userId, String username, String password, boolean enabled, int precedence, Collection<? extends GrantedAuthority> authorities, List<Long> allowedRegions, List<Long> allowedSchools) {
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
+        this.enabled = enabled;
+        this.precedence = precedence;
+        this.authorities = Collections.unmodifiableSet(new HashSet<>(authorities));
+        this.allowedRegions = allowedRegions;
+        this.allowedSchools = allowedSchools;
     }
 
-    public void setSecUserId(Long secUserId) {
-        this.secUserId = secUserId;
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public void setUsername(String username) {
@@ -54,21 +62,13 @@ public class AdminUser implements UserDetails, CredentialsContainer {
         return allowedRegions;
     }
 
-    public void setAllowedRegions(List<Long> allowedRegions) {
-        this.allowedRegions = allowedRegions;
-    }
-
     public List<Long> getAllowedSchools() {
         return allowedSchools;
     }
 
-    public void setAllowedSchools(List<Long> allowedSchools) {
-        this.allowedSchools = allowedSchools;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+        return authorities;
     }
 
     public void setPassword(String password) {

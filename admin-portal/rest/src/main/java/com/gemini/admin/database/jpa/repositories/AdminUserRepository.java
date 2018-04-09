@@ -10,4 +10,6 @@ import org.springframework.data.repository.CrudRepository;
  * Time: 4:19 PM
  */
 public interface AdminUserRepository extends CrudRepository<AdminUserEntity, Long> {
+
+  AdminUserEntity findByUserId(Long userId);
 }

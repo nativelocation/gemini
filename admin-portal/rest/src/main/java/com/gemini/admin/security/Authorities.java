@@ -29,9 +29,9 @@ package com.gemini.admin.security;
 */
 public enum Authorities {
     DE_CENTRAL("Nivel Central"),
-    VARIOUS_REGIONS("Director con acceso a varias Regiones"),
+    ACCESS_ON_VARIOUS_REGIONS("Director con acceso a varias Regiones"),
     REGION_DIRECTOR("Director Regional"),
-    VARIOUS_SCHOOLS("Director con acceso a varias Escuelas"),
+    ACCESS_ON_VARIOUS_SCHOOLS("Director con acceso a varias Escuelas"),
     SCHOOL_DIRECTOR("Director Escolar");
 
 

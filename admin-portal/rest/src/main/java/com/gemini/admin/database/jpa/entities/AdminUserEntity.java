@@ -1,5 +1,7 @@
 package com.gemini.admin.database.jpa.entities;
 
+import com.gemini.admin.security.Authorities;
+import com.gemini.commons.beans.types.RelationType;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -21,16 +23,20 @@ public class AdminUserEntity {
   private Long id;
 
   @Column(nullable = false)
-  private Long secUsedId;
+  private Long userId;
 
   @Column(nullable = false)
   private String username;
+
+  @Enumerated(EnumType.STRING)
+  @Column
+  private Authorities loggedAuthority;
 
   @Column
   private Date lastLogin;
 
   @Column
-  private boolean enabled = false;
+  private boolean enabled = true;
 
   @CreatedDate
   @Column(nullable = false, insertable = false, updatable = false, columnDefinition = "timestamp default CURRENT_TIMESTAMP")
@@ -48,12 +54,12 @@ public class AdminUserEntity {
     this.id = id;
   }
 
-  public Long getSecUsedId() {
-    return secUsedId;
+  public Long getUserId() {
+    return userId;
   }
 
-  public void setSecUsedId(Long secUsedId) {
-    this.secUsedId = secUsedId;
+  public void setUserId(Long userId) {
+    this.userId = userId;
   }
 
   public String getUsername() {
@@ -62,6 +68,14 @@ public class AdminUserEntity {
 
   public void setUsername(String username) {
     this.username = username;
+  }
+
+  public Authorities getLoggedAuthority() {
+    return loggedAuthority;
+  }
+
+  public void setLoggedAuthority(Authorities loggedAuthority) {
+    this.loggedAuthority = loggedAuthority;
   }
 
   public Date getLastLogin() {

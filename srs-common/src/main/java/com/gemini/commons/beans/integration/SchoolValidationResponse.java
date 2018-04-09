@@ -6,7 +6,7 @@ package com.gemini.commons.beans.integration;
  * Date: 3/30/18
  * Time: 9:57 AM
  */
-public class SchoolResponseResponse {
+public class SchoolValidationResponse {
 
     private Long schoolId;
     private Long extSchoolNumber;
