@@ -9,9 +9,9 @@ import java.util.Date;
  * Time: 4:08 PM
  */
 public class SieUser {
-  private Long secUserId;
+  private Long userId;
   private String username;
-  private String passwordValue;
+  private String password;
   private Date inactiveBaseDate;
   private Date lastLoginTime;
   private Long staffId;
@@ -19,20 +19,20 @@ public class SieUser {
   private String middleName;
   private String lastName;
 
-  public Long getSecUserId() {
-    return secUserId;
+  public Long getUserId() {
+    return userId;
   }
 
-  public void setSecUserId(Long secUserId) {
-    this.secUserId = secUserId;
+  public void setUserId(Long userId) {
+    this.userId = userId;
   }
 
-  public String getPasswordValue() {
-    return passwordValue;
+  public String getPassword() {
+    return password;
   }
 
-  public void setPasswordValue(String passwordValue) {
-    this.passwordValue = passwordValue;
+  public void setPassword(String password) {
+    this.password = password;
   }
 
   public Date getInactiveBaseDate() {

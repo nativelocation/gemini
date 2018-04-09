@@ -6,6 +6,7 @@ import com.gemini.admin.database.dao.beans.SieRole;
 import com.gemini.admin.database.dao.beans.SieUser;
 import com.gemini.admin.database.jpa.repositories.AdminUserRepository;
 import com.gemini.commons.utils.CopyUtils;
+import com.google.common.collect.FluentIterable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,12 +30,14 @@ public class UserService {
         SieUser sieUser = userDao.loadByUsername(username);
         if (sieUser == null)
             return null;
-        List<SieRole> sieRoles = userDao.loadRoles(sieUser.getSecUserId());
+        List<SieRole> sieRoles = userDao.loadRoles(sieUser.getUserId());
         if(sieRoles == null){
             return null;
         }
         AdminUser user = CopyUtils.convert(sieUser, AdminUser.class);
-//        user.setPrecedence(sieRoles.get(0));
+        user.setPrecedence(sieRoles.get(0).getPrecedence());
+//        FluentIterable.from(sieRoles) ;
+
         return user;
     }
 
