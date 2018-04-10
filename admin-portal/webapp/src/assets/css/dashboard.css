@@ -64,3 +64,9 @@
 .dashboard .main .display .categorys {
   max-height: 150px;
 }
+
+.dashboard .main .display .dashboard-chart {
+  margin-top: 60px;
+  padding: 25px;
+  text-align: center;
+}
